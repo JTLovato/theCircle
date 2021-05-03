@@ -1,42 +1,39 @@
+import React, { Component } from 'react';
 import './App.css';
-import React, { useEffect, useState } from "react";
-import { Dimmer, Loader } from 'semantic-ui-react';
-import Weather from './components/weather';
-import Forecast from './components/forecast';
-export default function App() {
-  
-  const [lat, setLat] = useState([]);
-  const [long, setLong] = useState([]);
-  const [data, setData] = useState([]);
+import { BrowserRouter, Link } from 'react-router-dom';
 
-  useEffect(() => {
-    const fetchData = async () => {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        setLat(position.coords.latitude);
-        setLong(position.coords.longitude);
-      });
-
-      await fetch(`${process.env.REACT_APP_API_URL}/weather/?lat=${lat}&lon=${long}&units=metric&APPID=${process.env.REACT_APP_API_KEY}`)
-      .then(res => res.json())
-      .then(result => {
-        setData(result)
-        console.log(result);
-      });
-    }
-    fetchData();
-  }, [lat,long])
-  
-  return (
-    <div className="App">
-    {(typeof data.main != 'undefined') ? (
-      <Weather weatherData={data}/>
-    ): (
-      <div>
-        <Dimmer active>
-          <Loader>Loading..</Loader>
-        </Dimmer>
-     </div>
-   )}
-</div>
-  );
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        <nav className="nav">
+          <BrowserRouter>
+            <Link to={"/"} className="nav-link"><img className="icon" src="/img/home.png" /></Link>
+            <Link to={"/"} className="nav-link"><img className="icon" src="/img/chat.png" /></Link>
+            <Link to={"/"} className="nav-link"><img className="icon" src="/img/bolt.png" /></Link>
+            <Link to={"/"} className="nav-link"><img className="icon" src="/img/person.png" /></Link>
+            <Link to={"/"} className="nav-link"><img className="icon" src="/img/picture.png" /></Link>
+            <Link to={"/"} className="nav-link"><img className="icon" src="/img/ratings.png" /></Link>
+            <Link to={"/"} className="nav-link"><img className="icon" src="/img/dice.png" /></Link>
+          </BrowserRouter>
+        </nav>
+        <div className="spin-holder">
+          <div className="welcome">
+            <p>WELCOME TO THE CIRCLE</p>
+          </div>
+          <div className="spinner white"></div>
+          <div className="spinner white-inner"></div>
+          <div className="spinner red"></div>
+          <div className="spinner red-inner"></div>
+          <div className="spinner purple"></div>
+          <div className="spinner purple-inner"></div>
+          <div className="spinner blue"></div>
+          <div className="spinner blue-inner"></div>
+        </div>
+        {/* <WeekContainer /> */}
+      </div>
+    );
+  }
 }
+
+export default App;
